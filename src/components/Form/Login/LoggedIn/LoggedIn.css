@@ -1,0 +1,10 @@
+ul{
+ width:auto;
+ align-content: center;
+ background-origin: padding-box;   
+list-style: none;
+}
+.li{
+    color: gray;  
+
+}
