@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Input from '../../../Input/Input';
-import './Reg.css';
+import Input from '../../../../Input/Input';
+import './Reg1.css';
 class Reg1 extends Component{  
   state={
     forms:{
@@ -41,7 +41,7 @@ class Reg1 extends Component{
            {value:'Other', display:'Other'}
          ]
     }, 
-    value:'',
+    value:'Male',
         valid:true,
      validation:{}
       },
@@ -102,14 +102,12 @@ class Reg1 extends Component{
         value:'',
         valid:false,
         validation:{
-          required:true,
+          required:true
         },     
       }     
     },
-    passwordcheck: true  ,
     formisValid:false,
-  
-   
+
   }
   checkValidity=(value,rules)=>{
     let isValid=true;
@@ -143,46 +141,61 @@ class Reg1 extends Component{
    let updated={...newforms[id]};   
    updated.value=event.target.value;
    updated.valid=this.checkValidity(updated.value,updated.validation) 
-  
    updated.touched=true;
-let formisValid=true;
-for(let id in newforms){
-  formisValid=newforms[id].valid && formisValid
-}
+   let formisValid=true;
+   for(let id in newforms){
+   formisValid=newforms[id].valid && formisValid
+   }
    newforms[id]=updated;
+   /*confirm password verification */
+   let password=this.state.forms["password"].value;
+   if(id==='confirmpassword'){
+    if(password===event.target.value){
+     formisValid=newforms[id].valid 
+    }
+    else{
+     formisValid=!newforms[id].valid  
+    }
+  }
 this.setState({
 forms:newforms,
 formisValid:formisValid
 })
 // console.log(newforms)
   }
-
   done=(event)=>{
     // console.log(this.props.history)
     event.preventDefault();
-    // const data=[];
-    // data.push(this.state.forms)
-    let firstname=this.state.forms.firstname.value;
-    let lastname=this.state.forms.lastname.value;
-    let password=this.state.forms.password.value;
-    let gender=this.state.forms.gender.value;
-    let email=this.state.forms.email.value;
-    let phone=this.state.forms.phone.value;
-let userdata={'First name':firstname,'Last name':lastname,'Password':password,'Gender':gender,'Email':email,'Phone':phone}
-
-localStorage.setItem('info',JSON.stringify(userdata))
-
-//  localStorage.setItem('First name',firstname);
-//  localStorage.setItem('Last name',lastname); 
-//  localStorage.setItem('Password',password);  
-//  localStorage.setItem('Gender',gender); 
-//  localStorage.setItem('Email',email); 
-//  localStorage.setItem('Phone',phone);  
-// const forwardData=data.join('&')
-// console.log(data)
-    this.props.history.push('/reg2')
+let arr={}
+for(let id in this.state.forms)
+{
+    arr[id]=this.state.forms[id].value
+}
+localStorage.setItem('info',JSON.stringify(arr))
+this.props.history.push('/reg2')
+ 
    }
-
+   componentDidMount(){
+    let info=JSON.parse(localStorage.getItem('info'))
+    //  let forms=this.state.forms;
+    let newforms={...this.state.forms}
+      if(info){
+        for(let id in newforms){
+          newforms[id].value=info[id]
+        }
+      let formisValid=true;
+      this.setState({
+        forms:newforms,
+        formisValid:formisValid
+      })
+      }
+      else{
+        this.setState({
+          forms:newforms
+        })
+      }
+     
+   }
   render(){ 
     let formsDemo=[];
     for(let key in this.state.forms){
@@ -203,7 +216,7 @@ localStorage.setItem('info',JSON.stringify(userdata))
         <div>     
          <Input inputtype={elem.inform.type}
           configuration={elem.inform.config}
-          value={elem.inform.value}
+          value={ elem.inform.value }
           key={elem.id}        
           valid={!elem.inform.valid}
           shouldvalidate={elem.inform.validation}
@@ -213,7 +226,7 @@ localStorage.setItem('info',JSON.stringify(userdata))
             </div>
       ))}   
 
-<button disabled={this.state.formisValid} >Next</button>     
+<button disabled={!this.state.formisValid} >Next</button>     
      </form>
      {/* type='submit' disabled={!this.state.formisValid} */}
     </div>

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-import Reg1 from '../Registration/Reg1';
-import Reg2 from '../Registration/Reg2';
+import Reg1 from './Reg1/Reg1';
+import Reg2 from './Reg2/Reg2';
 class Registration extends Component{
     state={
         step:1

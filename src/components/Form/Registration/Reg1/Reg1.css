@@ -1,0 +1,17 @@
+/* .Reg{
+   
+    width: 300px;
+    padding-left: 40%;
+} */
+ 
+.Reg{  
+        width: 382px;  
+        line-height: 30px;
+        overflow: hidden;  
+        margin: auto; 
+        margin-top: 60px; 
+        padding: 100px;  
+        background: rgb(74, 196, 74);  
+        border-radius: 15px ;  
+          
+}  

@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Input from '../../../Input/Input';
-import LoggedIn from './LoggedIn/LoggedIn';
-import {NavLink,Route} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
+import './Login.css';
 class Login extends Component{
     state={
         userData:null,
@@ -12,43 +12,33 @@ class Login extends Component{
             firstname:{
               type:'input',
               config:{
-                placeholder:'First Name',
+                placeholder:'Your Name',
                 name:'firstname',
               },
               value:'',
-              valid:false,
-              touched:false,
-              validation:{
-                required:true,          
-              }
+             
             },
             password:{
                 type:'input',
                 config:{
-                  placeholder:'Password',
+                  placeholder:'Your Password',
                   type:'password',
                   name:'password',
-                },
-                touched:false,
+                },    
                 value:'',
-                valid:false,             
-                validation:{
-                  required:true,
-                }
               }
             },
-         
     }
-    componentDidMount(){
-        const fname=localStorage.getItem('First name');
-        const lname=localStorage.getItem('Last name');
-        const password=localStorage.getItem('Password');
-        this.setState({
-            fname:fname,
-            lname:lname,
-            password:password
-        })
-    }
+    // componentDidMount(){
+    //     const fname=localStorage.getItem('First name');
+    //     const lname=localStorage.getItem('Last name');
+    //     const password=localStorage.getItem('Password');
+    //     this.setState({
+    //         fname:fname,
+    //         lname:lname,
+    //         password:password
+    //     })
+    // }
     onchangeHandler=(event,id)=>{
         let newforms={...this.state.forms};
        let updated={...newforms[id]};   
@@ -61,20 +51,28 @@ class Login extends Component{
       match=(e)=>{
         e.preventDefault();
         // const data=localStorage.getItem([]);
-        const info=JSON.parse(localStorage.getItem('info'));
-        const fname=info['First name'];
-        const password=info['Password'];
+        const allinfo=JSON.parse(localStorage.getItem('allinfo'));
+        // console.log(allinfo)
+        
         const fnamefromstate=this.state.forms.firstname.value
         const passfromstate=this.state.forms.password.value
         // console.log(fname +' '+fnamefromstate)
-
-        if(fnamefromstate===fname && passfromstate===password){
-            this.props.history.push('/loggedin')
+        for(let index in allinfo ){
+         let i=allinfo[index];
+        //  let info=i['Info']
+         let fname=i['Info']['firstname'];
+         let password=i['Info']['password'];
+          if(fnamefromstate===fname && passfromstate===password)
+          { 
+            this.props.history.push('/loggedin') 
+          }
+          else{
+              alert('Please Write Correct Id & passsword')  
+               break;
+          }
         }
-        else{
-            alert('Write Correct Id & passsword')
-           
-        }
+       
+         
       }
     render(){
         let formsDemo=[];
@@ -86,25 +84,30 @@ class Login extends Component{
            }   
           )
         }
+        let formdisp=
+          formsDemo.map(elem=>(
+            <div>     
+             <Input inputtype={elem.inform.type}
+              configuration={elem.inform.config}
+              value={elem.inform.value}
+              key={elem.id}        
+              changed={(event)=>this.onchangeHandler(event,elem.id)}   
+               />         
+                </div>
+          ))
+        
         return(
-            <div>
-                 { 
-      formsDemo.map(elem=>(
-        <div>     
-         <Input inputtype={elem.inform.type}
-          configuration={elem.inform.config}
-          value={elem.inform.value}
-          key={elem.id}        
-          changed={(event)=>this.onchangeHandler(event,elem.id)}   
-           />         
-            </div>
-      ))}  
-      <button  onClick={this.match}>
+            <div class='login'>
+              
+              <h1 style={{textAlign:'center',color:'lightgreen'}}>You are in Login Page</h1>
+                 { formdisp }  
+      <button onClick={this.match}  >
       Login
-         </button> 
-      <button><NavLink to='/' > Register</NavLink> </button> 
-      {/* <Route path= '/loggedin'  component={LoggedIn}/> */}
+      </button> 
+      <button><NavLink to='/reg1' > Register</NavLink> </button> 
+      {/* <Route path='/loggedin'  component={LoggedIn}/> */}
            {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}
+           
             </div>
         )
     }

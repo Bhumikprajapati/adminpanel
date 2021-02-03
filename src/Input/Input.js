@@ -6,7 +6,7 @@ const input=(props)=>{
   const inputClass=["InputElement"];   
   if(props.valid && props.shouldvalidate && props.touched) {     
           inputClass.push("Invalid");
-          validdata=<p>Enter your {props.configuration.name}</p>
+          validdata=<p>Enter your {props.configuration.name} Correctly</p>
    }
     let elemType=null;
     switch(props.inputtype){

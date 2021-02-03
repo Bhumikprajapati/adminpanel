@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Input from '../../../Input/Input';
+import Input from '../../../../Input/Input';
 import './Reg2.css';
 class Reg2 extends Component{
     state={
@@ -14,8 +14,7 @@ class Reg2 extends Component{
                 valid:false,
                 touched:false,
                 validation:{
-                  required:true,
-                 minLength:4 
+                  required:true
                 }
               },
               percent:{
@@ -45,52 +44,38 @@ class Reg2 extends Component{
                 touched:false,
                 validation:{
                   required:true,
-                  
+                  isString:true
                 }
               },
               sdate:{
                 type:'date',
-                config:{
-                  placeholder:'Course/Stream',
-                  name:'sdate',
+                config:{   
+                  name:'start date',
+                },
+                value:'',
+                valid:false,
+                touched:false,
+                validation:{
+                  required:true, 
+                                 
+                }
+              },
+              edate:{
+                type:'date',
+                config:{  
+                  name:'end date'
                 },
                 value:'',
                 valid:false,
                 touched:false,
                 validation:{
                   required:true,
-                  
+                    echeck:true        
                 }
-              },
-              edate:{
-                type:'date',
-                config:{
-                  placeholder:'Course/Stream',
-                  name:'edate',
-                },
-                value:'',
-                valid:false,
-                touched:false,
-                validation:{
-                  required:true,                 
-                }
-              },
-              addmore:{
-                type:'textarea',
-                config:{
-                  placeholder:'Write about educational details',
-                  name:'addmore'
-                },
-                value:'',
-                valid:false,
-                touched:false,
-                validation:{
-                  maxLength:250  
-                }
-               
-              }
+              },             
         },
-        formisValid:false
+        formisValid:false,
+        eduarray:[]
     }
     checkValidity=(value,rules)=>{
         let isValid=true;
@@ -99,10 +84,13 @@ class Reg2 extends Component{
         }
         if(rules.required){
           isValid=value.trim()!=='' && isValid
-         
         }
         if(rules.isNumeric){
           const pattern = /^\d+$/;
+          isValid = pattern.test(value) && isValid
+        }
+        if(rules.isString){
+          const pattern = /^[a-zA-Z]+$/;
           isValid = pattern.test(value) && isValid
         }
         if (rules.minLength) {
@@ -112,9 +100,18 @@ class Reg2 extends Component{
           isValid = value.length <= rules.maxLength && isValid
       }
       if (rules.isPercent) {
-        let pattern=/[0-9].[0-9]$/;
+        let pattern= /^([0-9]){1,2}(\.[0-9]{1,2})?$/
         isValid =  pattern.test(value) && isValid
     }
+    
+    if (rules.echeck) {
+      let edate=value;
+      let sdate=this.state.form2.sdate.value
+      if(edate<sdate){
+        isValid=false
+      }
+    
+  }
       return isValid; 
       }   
       onchangeHandler=(event,id)=>{
@@ -125,6 +122,7 @@ class Reg2 extends Component{
        updated.touched=true;
       // console.log(updated.valid)
     let formValid=true;
+
     for(let id in newforms){
       formValid=newforms[id].valid && formValid
     }
@@ -141,17 +139,35 @@ back=()=>{
 }
 submitted=(e)=>{
   e.preventDefault();
-  this.props.history.push('/login')
-  let sclname=this.state.form2.sclname.value;
-  let percent=this.state.form2.percent.value;
-  let course=this.state.form2.course.value;
-  let sdate=this.state.form2.sdate.value;
-  let edate=this.state.form2.edate.value;
-  let addmore=this.state.form2.addmore.value;
- 
+  this.submit();
+  let arr=[];
+  let info=JSON.parse(localStorage.getItem('info'))
+  let eduinfo=JSON.parse(localStorage.getItem('eduinfo'))
+  arr.push({Info:info,EduInfo:eduinfo});
+ localStorage.setItem('allinfo',JSON.stringify(arr))
+  localStorage.removeItem('info')
+  localStorage.removeItem('eduinfo')
+  this.props.history.push('/')
+}
+addmore=()=>{
+  this.submit()
+}
 
-let eduinfo={'School name':sclname,'Percentage':percent,'Course':course,'Start date':sdate,'End date':edate,'Add more':addmore}
-localStorage.setItem('Educational info',JSON.stringify(eduinfo))
+submit=()=>{
+  let arr={}
+for(let elem in this.state.form2)
+{
+arr[elem]=this.state.form2[elem].value
+}
+let updatedform2={...this.state.form2}
+ let eduinfo=[...this.state.eduarray]
+ eduinfo.push(arr)
+ 
+localStorage.setItem('eduinfo',JSON.stringify(eduinfo))
+this.setState({
+  form2:updatedform2,
+  eduarray:eduinfo
+})
 }
     render(){
         let loadform=[];
@@ -178,7 +194,7 @@ localStorage.setItem('Educational info',JSON.stringify(eduinfo))
                />
             ))}
                 </form>
-              
+              <button onClick={this.addmore} disabled={!this.state.formisValid} >Add more education</button>
                 <button onClick={ this.back}>Previous</button> 
                 <button disabled={!this.state.formisValid} onClick={this.submitted}>Register</button> 
              

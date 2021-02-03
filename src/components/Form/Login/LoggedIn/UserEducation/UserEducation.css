@@ -1,0 +1,9 @@
+table{
+    width: 100%;
+    align-content: center;
+    padding: 2px;
+
+}
+table,tr,th,td{
+    border:2px solid black;
+}
