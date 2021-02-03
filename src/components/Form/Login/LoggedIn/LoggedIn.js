@@ -16,8 +16,8 @@ class LoggedIn extends Component{
         
     return(
         
-        <div>
-            <h3>You are now logged in</h3>
+        <div className='all'>
+         <h3>You have successfully logged in</h3>
             <ul>
                 <li> <NavLink to='/loggedin' >Home </NavLink></li>
        <li> <NavLink to='/loggedin/userdetails'>User details</NavLink></li>
@@ -27,7 +27,7 @@ class LoggedIn extends Component{
       
       
         </ul>
-            <h1>You are {fname} {lname}</h1>
+            <h1>Welcome {fname} {lname}!!</h1>
             <Route path='/loggedin/userdetails' component={UserDetails} />
         </div>
 

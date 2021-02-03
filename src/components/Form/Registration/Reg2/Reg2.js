@@ -169,6 +169,27 @@ this.setState({
   eduarray:eduinfo
 })
 }
+componentDidMount(){
+  let info=JSON.parse(localStorage.getItem('eduinfo'))
+  //  let forms=this.state.forms;
+  let newforms={...this.state.form2}
+    if(info){
+      for(let id in newforms){
+        newforms[id].value=info[id]
+      }
+    let formisValid=true;
+    this.setState({
+      form2:newforms,
+      formisValid:formisValid
+    })
+    }
+    else{
+      this.setState({
+        form2:newforms
+      })
+    }
+   
+ }
     render(){
         let loadform=[];
         for(let key in  this.state.form2){
@@ -181,7 +202,7 @@ this.setState({
         return(
             <div className='Reg2'>
                 <form >
-                <label>Step 2</label>
+                <h3>Step 2</h3>
             {loadform.map(elem=>(
                 <Input inputtype={elem.info.type}
                 configuration={elem.info.config}

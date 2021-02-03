@@ -19,3 +19,18 @@ li:hover{
 color: green;
 background-color: lightgreen;
 }
+.all{  
+    width: auto;  
+    line-height: 30px;
+    overflow: hidden;  
+    margin: auto; 
+    margin-top: 60px; 
+    padding: 100px;  
+    background: lightgrey;  
+    border-radius: 15px ;  
+      
+}  
+h3{
+    color: blue;
+    background-color: lightblue;
+} 

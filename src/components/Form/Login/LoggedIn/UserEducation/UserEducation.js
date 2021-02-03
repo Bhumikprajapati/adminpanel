@@ -1,15 +1,23 @@
 import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
-
+import './UserEducation.css'
 class UserEducation extends Component{
+    edit=()=>{
+        alert('edited')
+    }
+    delete=()=>{
+        alert('deleted')
+    }
     setAll=(eduindex)=>{
         return(
             <tr>
-                <td> {eduindex['sclname'].value}</td>
-                <td>{eduindex['course'].value}</td>
-                <td>{eduindex['percent'].value}</td>
-                <td>{eduindex['sdate'].value}</td>
-                <td>{eduindex['edate'].value}</td>
+                <td> {eduindex['sclname']}</td>
+                <td>{eduindex['course']}</td>
+                <td>{eduindex['percent']}</td>
+                <td>{eduindex['sdate']}</td>
+                <td>{eduindex['edate']}</td>
+                <td onClick={this.edit}><button>Edit</button></td>
+                <td onClick={this.delete}><button className='danger'>Delete</button></td>
             </tr>
         )
     }
@@ -27,7 +35,7 @@ class UserEducation extends Component{
             }
         }
         return(
-<div>
+<div className='details'>
 <table  >
   <tr >
 <th>School</th>
@@ -35,6 +43,7 @@ class UserEducation extends Component{
 <th>Percentage</th>
 <th>Start Date</th>
 <th>End Date</th>
+<th colSpan='2'>Change</th>
  </tr>
  {arrOfinfo} 
 

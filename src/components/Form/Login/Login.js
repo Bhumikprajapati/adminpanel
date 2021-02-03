@@ -97,14 +97,15 @@ class Login extends Component{
           ))
         
         return(
-            <div class='login'>
+            <div className='login'>
               
-              <h1 style={{textAlign:'center',color:'lightgreen'}}>You are in Login Page</h1>
+              <h2>You are in Login Page</h2>
                  { formdisp }  
       <button onClick={this.match}  >
       Login
       </button> 
       <button><NavLink to='/reg1' > Register</NavLink> </button> 
+      <h4>Forgot password?</h4>
       {/* <Route path='/loggedin'  component={LoggedIn}/> */}
            {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}
            

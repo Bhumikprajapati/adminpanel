@@ -3,14 +3,17 @@
     width: 300px;
     padding-left: 40%;
 } */
- 
+h3{
+    color: blue;
+    background-color: lightblue;
+} 
 .Reg{  
         width: 382px;  
         line-height: 30px;
         overflow: hidden;  
         margin: auto; 
         margin-top: 60px; 
-        padding: 100px;  
+        padding: 50px;  
         background: rgb(74, 196, 74);  
         border-radius: 15px ;  
           

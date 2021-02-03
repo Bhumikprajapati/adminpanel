@@ -16,7 +16,7 @@ class UserDetails extends Component{
             phone=i['Info']['phone']
         }
         return(
-<div>
+<div className='details'>
 <table>
   <tr >
 <th>First name</th>

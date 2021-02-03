@@ -11,8 +11,21 @@
           
 }  
 button{
-    background-color: lightgreen;
+    margin-top: 20px;
+    background-color: lightskyblue;
+    font-size: 20px;
+    margin: 5px;
 }
  button:hover{
-background-color: grey;
+background-color: lime;
  }
+ h2{
+    color: blue;
+    background-color: lightblue;
+} 
+h4{
+    text-align: left;
+}
+h4:hover{
+    color: lime;
+}

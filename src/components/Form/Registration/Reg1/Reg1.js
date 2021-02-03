@@ -210,7 +210,7 @@ this.props.history.push('/reg2')
     
     <div className="Reg" >
      <form onSubmit={this.done}>
-       <label>Step 1</label>      
+       <h3>Step 1</h3>      
       { 
       formsDemo.map(elem=>(
         <div>     
