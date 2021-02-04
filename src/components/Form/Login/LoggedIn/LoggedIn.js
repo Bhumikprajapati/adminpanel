@@ -5,15 +5,8 @@ import './LoggedIn.css';
 
 class LoggedIn extends Component{
     render(){
-        const allinfo=JSON.parse(localStorage.getItem('allinfo'));
-        let fname,lname;
-        for(let index in allinfo){
-            let i=allinfo[index];
-             fname=i['Info']['firstname'];
-            lname=i['Info']['lastname'];
-        }
-        
-        
+        let activeFname=localStorage.getItem('activeFname');
+        let activeLname=localStorage.getItem('activeLname'); 
     return(
         
         <div className='all'>
@@ -27,7 +20,7 @@ class LoggedIn extends Component{
       
       
         </ul>
-            <h1>Welcome {fname} {lname}!!</h1>
+            <h1>Welcome {activeFname} {activeLname}!!</h1>
             <Route path='/loggedin/userdetails' component={UserDetails} />
         </div>
 

@@ -143,10 +143,11 @@ class Reg1 extends Component{
    updated.valid=this.checkValidity(updated.value,updated.validation) 
    updated.touched=true;
    let formisValid=true;
+   newforms[id]=updated;
    for(let id in newforms){
    formisValid=newforms[id].valid && formisValid
    }
-   newforms[id]=updated;
+ 
    /*confirm password verification */
    let password=this.state.forms["password"].value;
    if(id==='confirmpassword'){
@@ -210,6 +211,7 @@ this.props.history.push('/reg2')
     
     <div className="Reg" >
      <form onSubmit={this.done}>
+       <h2>Registration Page</h2>
        <h3>Step 1</h3>      
       { 
       formsDemo.map(elem=>(

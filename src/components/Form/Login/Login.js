@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import Input from '../../../Input/Input';
-import {NavLink} from 'react-router-dom';
 import './Login.css';
 class Login extends Component{
     state={
@@ -29,16 +28,6 @@ class Login extends Component{
               }
             },
     }
-    // componentDidMount(){
-    //     const fname=localStorage.getItem('First name');
-    //     const lname=localStorage.getItem('Last name');
-    //     const password=localStorage.getItem('Password');
-    //     this.setState({
-    //         fname:fname,
-    //         lname:lname,
-    //         password:password
-    //     })
-    // }
     onchangeHandler=(event,id)=>{
         let newforms={...this.state.forms};
        let updated={...newforms[id]};   
@@ -57,23 +46,41 @@ class Login extends Component{
         const fnamefromstate=this.state.forms.firstname.value
         const passfromstate=this.state.forms.password.value
         // console.log(fname +' '+fnamefromstate)
+        let check=false
         for(let index in allinfo ){
          let i=allinfo[index];
-        //  let info=i['Info']
-         let fname=i['Info']['firstname'];
-         let password=i['Info']['password'];
+         let info=i['Info']
+         console.log(info)
+          let fname=info['firstname'];
+          let lname=info['lastname'];
+          let password=info['password'];
           if(fnamefromstate===fname && passfromstate===password)
           { 
+            check=true;
+            localStorage.setItem('activeFname', fname);
+            localStorage.setItem('activeLname', lname);
+            localStorage.setItem('activeindex',index);
+           break;
+          }
+          else{
+            check=false
+          }
+         }
+        
+        //  console.log(fname+' '+password)
+         
+          if(check){
             this.props.history.push('/loggedin') 
           }
           else{
-              alert('Please Write Correct Id & passsword')  
-               break;
-          }
-        }
-       
-         
+            alert('Please Write Correct Id & passsword')  
+                    }
+        }   
+    
+      register=()=>{
+        this.props.history.push('/reg1')
       }
+    
     render(){
         let formsDemo=[];
         for(let key in this.state.forms){
@@ -104,7 +111,7 @@ class Login extends Component{
       <button onClick={this.match}  >
       Login
       </button> 
-      <button><NavLink to='/reg1' > Register</NavLink> </button> 
+      <button onClick={this.register}>Register </button> 
       <h4>Forgot password?</h4>
       {/* <Route path='/loggedin'  component={LoggedIn}/> */}
            {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}

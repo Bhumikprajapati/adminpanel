@@ -75,7 +75,8 @@ class Reg2 extends Component{
               },             
         },
         formisValid:false,
-        eduarray:[]
+        eduarray:[],
+        addmore:[]
     }
     checkValidity=(value,rules)=>{
         let isValid=true;
@@ -96,9 +97,6 @@ class Reg2 extends Component{
         if (rules.minLength) {
           isValid = value.length >= rules.minLength && isValid
       }
-      if (rules.maxLength) {
-          isValid = value.length <= rules.maxLength && isValid
-      }
       if (rules.isPercent) {
         let pattern= /^([0-9]){1,2}(\.[0-9]{1,2})?$/
         isValid =  pattern.test(value) && isValid
@@ -108,7 +106,7 @@ class Reg2 extends Component{
       let edate=value;
       let sdate=this.state.form2.sdate.value
       if(edate<sdate){
-        isValid=false
+        isValid=!isValid
       }
     
   }
@@ -120,13 +118,13 @@ class Reg2 extends Component{
        updated.value=event.target.value;
        updated.valid=this.checkValidity(updated.value,updated.validation)     
        updated.touched=true;
+       newforms[id]=updated;
       // console.log(updated.valid)
     let formValid=true;
 
     for(let id in newforms){
       formValid=newforms[id].valid && formValid
-    }
-       newforms[id]=updated;
+    }    
     // console.log(updated)
     this.setState({
     form2:newforms,
@@ -139,12 +137,14 @@ back=()=>{
 }
 submitted=(e)=>{
   e.preventDefault();
-  this.submit();
-  let arr=[];
+  let addmore=[];
   let info=JSON.parse(localStorage.getItem('info'))
   let eduinfo=JSON.parse(localStorage.getItem('eduinfo'))
-  arr.push({Info:info,EduInfo:eduinfo});
- localStorage.setItem('allinfo',JSON.stringify(arr))
+  let allinfos=JSON.parse(localStorage.getItem('allinfo'))
+  addmore=allinfos
+  addmore.push({Info:info,EduInfo:eduinfo})
+//   arr.push({Info:info,EduInfo:eduinfo});
+ localStorage.setItem('allinfo',JSON.stringify(addmore))
   localStorage.removeItem('info')
   localStorage.removeItem('eduinfo')
   this.props.history.push('/')
@@ -175,6 +175,7 @@ componentDidMount(){
   let newforms={...this.state.form2}
     if(info){
       for(let id in newforms){
+        console.log(info[id])
         newforms[id].value=info[id]
       }
     let formisValid=true;
@@ -187,8 +188,7 @@ componentDidMount(){
       this.setState({
         form2:newforms
       })
-    }
-   
+    } 
  }
     render(){
         let loadform=[];
@@ -196,12 +196,12 @@ componentDidMount(){
             loadform.push({
                 id:key,
                 info:this.state.form2[key]
-            })
-        
+            })       
         }
         return(
             <div className='Reg2'>
                 <form >
+                  <h2>You are about to done</h2>
                 <h3>Step 2</h3>
             {loadform.map(elem=>(
                 <Input inputtype={elem.info.type}
@@ -217,7 +217,7 @@ componentDidMount(){
                 </form>
               <button onClick={this.addmore} disabled={!this.state.formisValid} >Add more education</button>
                 <button onClick={ this.back}>Previous</button> 
-                <button disabled={!this.state.formisValid} onClick={this.submitted}>Register</button> 
+                <button disabled={!this.state.formisValid} onClick={this.submitted}>Register Me</button> 
              
             </div>
         )

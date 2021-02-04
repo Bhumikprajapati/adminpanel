@@ -3,10 +3,22 @@ import {NavLink} from 'react-router-dom';
 import './UserEducation.css'
 class UserEducation extends Component{
     edit=()=>{
-        alert('edited')
+        const allinfo=JSON.parse(localStorage.getItem('allinfo'));
+        for(let index in allinfo){
+            let i=allinfo[index];
+            let j=i['EduInfo']
+            for(let k=0;k<j.length;k++){
+                let eduindex=j[k]
+             console.log(eduindex)
+            }
+        }
     }
-    delete=()=>{
-        alert('deleted')
+    delete=(eduindex)=>{
+        console.log(eduindex)
+                localStorage.removeItem(eduindex)
+              
+            
+        
     }
     setAll=(eduindex)=>{
         return(
@@ -17,10 +29,11 @@ class UserEducation extends Component{
                 <td>{eduindex['sdate']}</td>
                 <td>{eduindex['edate']}</td>
                 <td onClick={this.edit}><button>Edit</button></td>
-                <td onClick={this.delete}><button className='danger'>Delete</button></td>
+                <td onClick={this.delete.bind(this,eduindex)}><button className='danger'>Delete</button></td>
             </tr>
         )
     }
+    
     render(){
        let store='';
         let arrOfinfo=[]
@@ -32,21 +45,25 @@ class UserEducation extends Component{
                 let eduindex=j[k]
                  store=this.setAll(eduindex)
                 arrOfinfo.push(store)
+                // console.log(arrOfinfo)
             }
         }
         return(
 <div className='details'>
 <table  >
+    <thead>
   <tr >
 <th>School</th>
 <th>Course</th>
 <th>Percentage</th>
 <th>Start Date</th>
 <th>End Date</th>
-<th colSpan='2'>Change</th>
+<th colSpan='2'>Let's Change</th>
  </tr>
+ </thead>
+ <tbody>
  {arrOfinfo} 
-
+ </tbody>
  </table>
  <h3 ><NavLink to='/loggedin' > Go to Home Page</NavLink></h3>
  </div>

@@ -6,18 +6,19 @@ class UserDetails extends Component{
     
     render(){   
         const allinfo=JSON.parse(localStorage.getItem('allinfo'));
-        let fname,lname,gender,email,phone;
-        for(let index in allinfo){
-            let i=allinfo[index];
-             fname=i['Info']['firstname'];
-            lname=i['Info']['lastname'];
-            gender=i['Info']['gender']
-            email=i['Info']['email']
-            phone=i['Info']['phone']
-        }
+        let data=allinfo.map(user=>(
+            <tr>
+                <td>{user.Info.firstname}</td>
+                <td>{user.Info.lastname}</td>
+                <td>{user.Info.gender}</td>
+                <td>{user.Info.email}</td>
+                <td>{user.Info.phone}</td>
+                
+            </tr>))
         return(
 <div className='details'>
 <table>
+    <thead>
   <tr >
 <th>First name</th>
 <th>Last name</th>
@@ -25,16 +26,18 @@ class UserDetails extends Component{
 <th>Email</th>
 <th>Phone no</th>
  </tr>
- <tr>
-     {/* {info.map(elem=>{
-         return <td>{elem}</td>
-     })} */}
+ </thead>
+ <tbody>
+
+ {/* <tr>  
 <td>{fname}</td>
 <td>{lname}</td>
 <td>{gender}</td>
 <td>{email}</td>
 <td>{phone }</td>  
-  </tr>
+  </tr> */}
+  {data}
+  </tbody>
  </table>
  <h3 ><NavLink to='/loggedin' > Go to Home Page</NavLink></h3>
  </div>

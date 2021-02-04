@@ -19,7 +19,7 @@ table,tr,th,td{
     border-radius: 15px ;  
       
 }  
-.danger{
+.danger:hover{
     background-color: red;
 
 }
