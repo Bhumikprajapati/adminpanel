@@ -75,7 +75,7 @@ class Reg2 extends Component{
               },             
         },
         formisValid:false,
-        eduarray:[],
+        addData:[],
         addmore:[]
     }
     checkValidity=(value,rules)=>{
@@ -137,59 +137,58 @@ back=()=>{
 }
 submitted=(e)=>{
   e.preventDefault();
-  let addmore=[];
+
   let info=JSON.parse(localStorage.getItem('info'))
   let eduinfo=JSON.parse(localStorage.getItem('eduinfo'))
   let allinfos=JSON.parse(localStorage.getItem('allinfo'))
-  addmore=allinfos
+  let addmore=[];
+  if(allinfos){ 
+    addmore=allinfos
+  }
   addmore.push({Info:info,EduInfo:eduinfo})
-//   arr.push({Info:info,EduInfo:eduinfo});
- localStorage.setItem('allinfo',JSON.stringify(addmore))
+    localStorage.setItem('allinfo',JSON.stringify(addmore))
   localStorage.removeItem('info')
   localStorage.removeItem('eduinfo')
+ 
   this.props.history.push('/')
 }
 addmore=()=>{
-  this.submit()
+  const updatedform2 = {...this.state.form2}
+   const addCopyData = [...this.state.addData]
+  addCopyData.push(updatedform2);
+localStorage.setItem('eduinfo',JSON.stringify(addCopyData))
+for(let id in updatedform2) {
+  updatedform2[id].touched = false;
+  updatedform2[id].value = '';
+  updatedform2[id].valid = false;  
 }
-
-submit=()=>{
-  let arr={}
-for(let elem in this.state.form2)
-{
-arr[elem]=this.state.form2[elem].value
-}
-let updatedform2={...this.state.form2}
- let eduinfo=[...this.state.eduarray]
- eduinfo.push(arr)
- 
-localStorage.setItem('eduinfo',JSON.stringify(eduinfo))
 this.setState({
   form2:updatedform2,
-  eduarray:eduinfo
+  addData:addCopyData,
+  formisValid:false
 })
 }
-componentDidMount(){
-  let info=JSON.parse(localStorage.getItem('eduinfo'))
-  //  let forms=this.state.forms;
-  let newforms={...this.state.form2}
-    if(info){
-      for(let id in newforms){
-        console.log(info[id])
-        newforms[id].value=info[id]
-      }
-    let formisValid=true;
-    this.setState({
-      form2:newforms,
-      formisValid:formisValid
-    })
-    }
-    else{
-      this.setState({
-        form2:newforms
-      })
-    } 
- }
+// componentDidMount(){
+//   let info=JSON.parse(localStorage.getItem('eduinfo'))
+//   //  let forms=this.state.forms;
+//   let newforms={...this.state.form2}
+//     if(info){
+//       for(let id in newforms){
+//         console.log(info[id])
+//         newforms[id].value=info[id]
+//       }
+//     let formisValid=true;
+//     this.setState({
+//       form2:newforms,
+//       formisValid:formisValid
+//     })
+//     }
+//     else{
+//       this.setState({
+//         form2:newforms
+//       })
+//     } 
+//  }
     render(){
         let loadform=[];
         for(let key in  this.state.form2){

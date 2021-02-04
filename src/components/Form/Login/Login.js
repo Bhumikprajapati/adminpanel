@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import { NavLink } from 'react-router-dom';
 import Input from '../../../Input/Input';
 import './Login.css';
 class Login extends Component{
@@ -75,8 +76,7 @@ class Login extends Component{
           else{
             alert('Please Write Correct Id & passsword')  
                     }
-        }   
-    
+        }     
       register=()=>{
         this.props.history.push('/reg1')
       }
@@ -104,15 +104,14 @@ class Login extends Component{
           ))
         
         return(
-            <div className='login'>
-              
-              <h2>You are in Login Page</h2>
+            <div className='login'>             
+              <h2>ADMIN PANEL</h2>
                  { formdisp }  
       <button onClick={this.match}  >
       Login
       </button> 
       <button onClick={this.register}>Register </button> 
-      <h4>Forgot password?</h4>
+      <NavLink to= '/forgotPassword'><h4>Forgot password?</h4></NavLink>
       {/* <Route path='/loggedin'  component={LoggedIn}/> */}
            {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}
            

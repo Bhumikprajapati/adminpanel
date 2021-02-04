@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import LoggedIn from './Login/LoggedIn/LoggedIn';
 import UserDetails from './Login/LoggedIn/UserDetails/UserDetails';
 import UserEducation from './Login/LoggedIn/UserEducation/UserEducation';
+import ForgotPassword from './Login/ForgotPassword/ForgotPassword';
 import {Route,Switch} from 'react-router-dom';
 
 class Form extends Component{
@@ -15,6 +16,7 @@ class Form extends Component{
              <Route path='/loggedin/userdetails' component={UserDetails}  />
              <Route path='/loggedin/usereducation' component={UserEducation}  />
              <Route path='/loggedin' component={LoggedIn}  /> 
+             <Route  path='/forgotPassword'  component={ForgotPassword} />
             <Route  path='/reg2'  component={Reg2} />
             <Route  path='/reg1'  component={Reg1} />
              <Route path='/' component={Login}  />
