@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
-import Input from '../../../../Input/Input';
-import './Reg2.css';
-class Reg2 extends Component{
+import Input from '../../../../../../Input/Input'
+class Edit extends Component{
     state={
         form2:{
             sclname:{
@@ -74,8 +73,7 @@ class Reg2 extends Component{
               },             
         },
         formisValid:false,
-        addData:[],
-        pushData:[]
+        id:null
     }
     checkValidity=(value,rules)=>{
         let isValid=true;
@@ -113,54 +111,46 @@ class Reg2 extends Component{
        updated.valid=this.checkValidity(updated.value,updated.validation)     
        updated.touched=true;
        newforms[id]=updated;
-      // console.log(updated.valid)
-    let formValid=true;
-
+   let formValid=true
     for(let id in newforms){
-      formValid=newforms[id].valid && formValid
+      formValid=newforms[id].valid 
     }    
-    // console.log(updated)
     this.setState({
     form2:newforms,
     formisValid:formValid
     })
-    // console.log(newforms)
       }
-back=()=>{
-  this.props.history.goBack()
-}
 submitted=(e)=>{
   e.preventDefault();
-  this.addmore()
-  let info=JSON.parse(localStorage.getItem('info'))
-  let eduinfo=JSON.parse(localStorage.getItem('eduinfo'))
   let allinfos=JSON.parse(localStorage.getItem('allinfo'))
-  let pushData=[];
-  if(allinfos){ 
-    pushData=allinfos
-  }
-  pushData.push({Info:info,EduInfo:eduinfo})
-    localStorage.setItem('allinfo',JSON.stringify(pushData))
-  localStorage.removeItem('info')
-  localStorage.removeItem('eduinfo')
-  this.props.history.push('/')
+  let userId=localStorage.getItem('activeindex')
+  let info=allinfos[userId];
+  let d1=info['EduInfo'];
+  let d2=d1[this.state.id]
+        d2['sclname'].value=this.state.form2['sclname'].value;
+        d2['course'].value=this.state.form2['course'].value;
+        d2['percent'].value=this.state.form2['percent'].value;
+        d2['sdate'].value=this.state.form2['sdate'].value;
+        d2['edate'].value=this.state.form2['edate'].value;
+
+  localStorage.setItem('allinfo',JSON.stringify(allinfos))
+  localStorage.removeItem('editData')
+  this.props.history.push('/loggedin/usereducation')
 }
-addmore=()=>{
-  const updatedform2 = {...this.state.form2}
-   const addCopyData = [...this.state.addData]
-  addCopyData.push(updatedform2);
-localStorage.setItem('eduinfo',JSON.stringify(addCopyData))
-for(let id in updatedform2) {
-  updatedform2[id].touched = false;
-  updatedform2[id].value = '';
-  updatedform2[id].valid = false;  
-}
-this.setState({
-  form2:updatedform2,
-  addData:addCopyData,
-  formisValid:false
-})
-}
+componentDidMount(){
+    let editData=JSON.parse(localStorage.getItem('editData'));
+     if(editData){
+        let form2={...this.state.form2}
+        form2['sclname']=editData.sclname;
+        form2['course']=editData.course;
+        form2['percent']=editData.percent;
+        form2['sdate']=editData.sdate;
+        form2['edate']=editData.edate;
+        let id=editData['id']
+        // console.log(id)
+   this.setState({form2:form2,formisValid:true,id:id});
+    } 
+      } 
     render(){
         let loadform=[];
         for(let key in  this.state.form2){
@@ -172,8 +162,7 @@ this.setState({
         return(
             <div className='Reg2'>
                 <form >
-                  <h2>You are about to done</h2>
-                <h3>Step 2</h3>
+                  <h2>Edit Page</h2>
             {loadform.map(elem=>(
                 <Input inputtype={elem.info.type}
                 configuration={elem.info.config}
@@ -185,13 +174,11 @@ this.setState({
                 changed={(event)=>this.onchangeHandler(event,elem.id)}
                />
             ))}
-                </form>
-              <button onClick={this.addmore} disabled={!this.state.formisValid} >Add more education</button>
-                <button onClick={ this.back}>Previous</button> 
-                <button disabled={!this.state.formisValid} onClick={this.submitted}>Register Me</button> 
+                </form> 
+                <button disabled={!this.state.formisValid} onClick={this.submitted}>Save</button> 
              
             </div>
         )
     }
 }
-export default Reg2;
+export default Edit;

@@ -15,8 +15,7 @@ class Login extends Component{
                 placeholder:'Your Name',
                 name:'firstname',
               },
-              value:'',
-             
+              value:''             
             },
             password:{
                 type:'input',
@@ -42,8 +41,7 @@ class Login extends Component{
         e.preventDefault();
         // const data=localStorage.getItem([]);
         const allinfo=JSON.parse(localStorage.getItem('allinfo'));
-        // console.log(allinfo)
-        
+        // console.log(allinfo)    
         const fnamefromstate=this.state.forms.firstname.value
         const passfromstate=this.state.forms.password.value
         // console.log(fname +' '+fnamefromstate)
@@ -79,8 +77,7 @@ class Login extends Component{
         }     
       register=()=>{
         this.props.history.push('/reg1')
-      }
-    
+      }   
     render(){
         let formsDemo=[];
         for(let key in this.state.forms){
@@ -101,9 +98,8 @@ class Login extends Component{
               changed={(event)=>this.onchangeHandler(event,elem.id)}   
                />         
                 </div>
-          ))
-        
-        return(
+          ))        
+       return(
             <div className='login'>             
               <h2>ADMIN PANEL</h2>
                  { formdisp }  
@@ -113,8 +109,7 @@ class Login extends Component{
       <button onClick={this.register}>Register </button> 
       <NavLink to= '/forgotPassword'><h4>Forgot password?</h4></NavLink>
       {/* <Route path='/loggedin'  component={LoggedIn}/> */}
-           {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}
-           
+           {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}          
             </div>
         )
     }

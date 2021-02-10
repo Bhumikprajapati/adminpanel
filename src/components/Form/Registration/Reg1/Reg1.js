@@ -14,8 +14,7 @@ class Reg1 extends Component{
         valid:false,
         touched:false,
         validation:{
-          required:true,
-          
+          required:true,   
         }
       },
       lastname:{
@@ -26,8 +25,7 @@ class Reg1 extends Component{
         },
         touched:false,
         value:'',
-        valid:false,
-        
+        valid:false,      
         validation:{
           required:true,
         }
@@ -45,7 +43,6 @@ class Reg1 extends Component{
         valid:true,
      validation:{}
       },
-
       email:{
         type:'input',
         config:{
@@ -85,8 +82,7 @@ class Reg1 extends Component{
         },
         touched:false,
         value:'',
-        valid:false,
-        
+        valid:false,       
         validation:{
           required:true,
         }
@@ -107,7 +103,6 @@ class Reg1 extends Component{
       }     
     },
     formisValid:false,
-
   }
   checkValidity=(value,rules)=>{
     let isValid=true;
@@ -115,8 +110,7 @@ class Reg1 extends Component{
       return true;
     }
     if(rules.required){
-      isValid=value.trim()!=='' && isValid
-     
+      isValid=value.trim()!=='' && isValid  
     }
     if(rules.isNumeric){
       const pattern = /^\d+$/;
@@ -133,10 +127,8 @@ class Reg1 extends Component{
     isValid = pattern.test(value) && isValid
 }
   return isValid;
-
   }
   onchangeHandler=(event,id)=>{
-   
     let newforms={...this.state.forms};
    let updated={...newforms[id]};   
    updated.value=event.target.value;
@@ -147,7 +139,6 @@ class Reg1 extends Component{
    for(let id in newforms){
    formisValid=newforms[id].valid && formisValid
    }
- 
    /*confirm password verification */
    let password=this.state.forms["password"].value;
    if(id==='confirmpassword'){
@@ -173,10 +164,9 @@ for(let id in this.state.forms)
     arr[id]=this.state.forms[id].value
 }
 localStorage.setItem('info',JSON.stringify(arr))
-this.props.history.push('/reg2')
- 
+this.props.history.push('/reg2') 
    }
-   componentDidMount(){
+componentDidMount(){
     let info=JSON.parse(localStorage.getItem('info'))
     //  let forms=this.state.forms;
     let newforms={...this.state.forms}
@@ -194,8 +184,7 @@ this.props.history.push('/reg2')
         this.setState({
           forms:newforms
         })
-      }
-     
+      }    
    }
   render(){ 
     let formsDemo=[];
@@ -207,8 +196,7 @@ this.props.history.push('/reg2')
        }   
       )
     }
-  return (
-    
+  return (  
     <div className="Reg" >
      <form onSubmit={this.done}>
        <h2>REGISTER YOURSELF</h2>
@@ -227,7 +215,6 @@ this.props.history.push('/reg2')
            />         
             </div>
       ))}   
-
 <button disabled={!this.state.formisValid} >Next</button>     
      </form>
      {/* type='submit' disabled={!this.state.formisValid} */}

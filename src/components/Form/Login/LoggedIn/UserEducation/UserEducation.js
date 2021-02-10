@@ -2,67 +2,73 @@ import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import './UserEducation.css'
 class UserEducation extends Component{
-    edit=()=>{
-        // const allinfo=JSON.parse(localStorage.getItem('allinfo'));
-        // for(let index in allinfo){
-        //     let i=allinfo[index];
-        //     let j=i['EduInfo']
-        //     for(let k=0;k<j.length;k++){
-        //         let eduindex=j[k]
-        //      console.log(eduindex)
-        //     }
-        // }
-
-    }
-    delete=(eduindex)=>{
-        // let sclname=eduindex.sclname.value
-        // console.log(sclname)
-        localStorage.removeItem(eduindex)    
-        
-            }
-    setAll=(eduindex)=>{
-        return(
-            <tr>
-                <td> {eduindex.sclname.value}</td>
-                <td>{eduindex.course.value}</td>
-                <td>{eduindex.percent.value}</td>
-                <td>{eduindex.sdate.value}</td>
-                <td>{eduindex.edate.value}</td>
-                <td onClick={this.edit}><button>Edit</button></td>
-                <td onClick={this.delete.bind(this,eduindex)}><button className='danger'>Delete</button></td>
-            </tr>
-        )
-    }
-    
-    render(){
-       let store='';
-        let arrOfinfo=[]
-        const allinfo=JSON.parse(localStorage.getItem('allinfo'));
-        for(let index in allinfo){
-            let i=allinfo[index];
-            let j=i['EduInfo']
-            for(let k=0;k<j.length;k++){
-                let eduindex=j[k]
-                 store=this.setAll(eduindex)
-                arrOfinfo.push(store)
-                // console.log(arrOfinfo)
-            }
+    edit=(data,index)=>{
+        let confirm=window.confirm('Are you sure to want to edit this record?')
+        if(confirm){
+        let sclname=data['sclname'];
+        let course=data['course'];
+        let percent=data['percent']
+        let sdate=data['sdate']
+        let edate=data['edate']
+        let editData={'sclname':sclname,'course':course,'percent':percent,'sdate':sdate,'edate':edate,'id':index};
+        localStorage.setItem('editData',JSON.stringify(editData));
+        this.props.history.push('/edit')
         }
+        else{
+            return
+        }
+   }
+    delete=(index)=>{
+      const allinfo=JSON.parse(localStorage.getItem('allinfo'))
+      const activeindex=JSON.parse(localStorage.getItem('activeindex')); 
+      let i=allinfo[activeindex];
+      let j=i['EduInfo']
+      let confirm=window.confirm('Are you sure to delete this record?')
+      if(confirm){
+          j.splice(index,1)
+          i['EduInfo']=j
+          localStorage.setItem('allinfo',JSON.stringify(allinfo))
+          window.location.reload()
+      }  
+      else{
+          return
+      }
+     }   
+    render(){
+        const allinfo=JSON.parse(localStorage.getItem('allinfo'));
+        const activeindex=localStorage.getItem('activeindex');   
+            let i=allinfo[activeindex];
+            let j=i['EduInfo']
+            console.log(j)
+           let showinfo=j.map((data,index)=>{
+               return(
+                <tr>
+                <td> {data['sclname'].value}</td>
+                <td>{data['course'].value}</td>
+                <td>{data['percent'].value}</td>
+                <td>{data['sdate'].value}</td>
+                <td>{data['edate'].value}</td>
+                <td><button onClick={()=>{this.edit(data,index)}}>Edit</button></td>
+                <td><button className='danger' onClick={()=>{this.delete(index)}}>Delete</button></td>
+            </tr>
+               )
+           })
+        
         return(
 <div className='details'>
 <table  >
     <thead>
   <tr >
-<th>School</th>
+<th>School/College</th>
 <th>Course</th>
 <th>Percentage</th>
 <th>Start Date</th>
 <th>End Date</th>
-<th colSpan='2'>Let's Change</th>
+<th colSpan='2'>EDIT | DELETE</th>
  </tr>
  </thead>
  <tbody>
- {arrOfinfo} 
+ {showinfo} 
  </tbody>
  </table>
  <h3 ><NavLink to='/loggedin' > Go to Home Page</NavLink></h3>
