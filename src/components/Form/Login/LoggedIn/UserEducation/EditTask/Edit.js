@@ -125,13 +125,13 @@ submitted=(e)=>{
   let allinfos=JSON.parse(localStorage.getItem('allinfo'))
   let userId=localStorage.getItem('activeindex')
   let info=allinfos[userId];
-  let d1=info['EduInfo'];
-  let d2=d1[this.state.id]
-        d2['sclname'].value=this.state.form2['sclname'].value;
-        d2['course'].value=this.state.form2['course'].value;
-        d2['percent'].value=this.state.form2['percent'].value;
-        d2['sdate'].value=this.state.form2['sdate'].value;
-        d2['edate'].value=this.state.form2['edate'].value;
+  let eduinfo=info['EduInfo'];
+  let elem=eduinfo[this.state.id]
+        elem['sclname']=this.state.form2['sclname'].value;
+        elem['course']=this.state.form2['course'].value;
+        elem['percent']=this.state.form2['percent'].value;
+        elem['sdate']=this.state.form2['sdate'].value;
+        elem['edate']=this.state.form2['edate'].value;
 
   localStorage.setItem('allinfo',JSON.stringify(allinfos))
   localStorage.removeItem('editData')
@@ -141,11 +141,11 @@ componentDidMount(){
     let editData=JSON.parse(localStorage.getItem('editData'));
      if(editData){
         let form2={...this.state.form2}
-        form2['sclname']=editData.sclname;
-        form2['course']=editData.course;
-        form2['percent']=editData.percent;
-        form2['sdate']=editData.sdate;
-        form2['edate']=editData.edate;
+        form2.sclname.value=editData['sclname'];
+            form2.course.value=editData['course'];
+            form2.percent.value=editData['percent'];
+            form2.sdate.value=editData['sdate'];
+            form2.edate.value=editData['edate'];
         let id=editData['id']
         // console.log(id)
    this.setState({form2:form2,formisValid:true,id:id});

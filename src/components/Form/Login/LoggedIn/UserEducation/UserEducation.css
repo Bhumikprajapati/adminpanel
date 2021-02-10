@@ -23,3 +23,7 @@ table,tr,th,td{
     background-color: red;
 
 }
+h3:hover{
+    background-color: lightgoldenrodyellow;
+    font-style: oblique;
+}

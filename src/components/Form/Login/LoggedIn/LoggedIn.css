@@ -8,16 +8,18 @@ padding: 10px;
 margin: 10px auto;
 box-sizing: border-box;
 display: flex;
+background-color: lightcoral;
+font-weight: bold;
 }
 li{
-   
+    font-style: oblique;
+   text-transform: capitalize;
     color: gray;  
     padding: auto;
     margin: auto;
 }
 li:hover{
-color: green;
-background-color: lightgreen;
+background-color: lightgoldenrodyellow;
 }
 .all{  
     width: auto;  

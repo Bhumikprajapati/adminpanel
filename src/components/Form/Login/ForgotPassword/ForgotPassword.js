@@ -1,8 +1,23 @@
 import React,{Component} from 'react';
 import Input from '../../../../Input/Input'
+import './ForgotPassword.css';
 class ForgotPassword extends Component{
     state={
         forms:{
+            email:{
+                type:'input',
+                config:{
+                  placeholder:'E-mail',
+                  name:'email',
+                },
+                value:'',
+                touched:false,
+                valid:false,    
+                validation:{
+                  required:true,
+                  isEmail:true
+                }
+              },
             oldPassword:{
                 type:'input',
                 config:{
@@ -35,6 +50,7 @@ class ForgotPassword extends Component{
                 }
             },
         },
+        check:true,
         formisValid:false
     }
     checkValidity=(value,rules)=>{  
@@ -42,10 +58,13 @@ class ForgotPassword extends Component{
         if(!rules){
           isValid=true;
         }
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
         return isValid
     }
     onchangeHandler=(event,id)=>{
-   
         let newforms={...this.state.forms};
        let updated={...newforms[id]};   
        updated.value=event.target.value;
@@ -63,30 +82,48 @@ class ForgotPassword extends Component{
       }
       check=(e)=>{
         e.preventDefault();
-        let oldPassfromstate=this.state.forms.oldPassword.value;
-        let newPassfromstate=this.state.forms.newPassword.value;
-        if(oldPassfromstate.trim()===''||newPassfromstate.trim()===''){
-            alert('Enter some password in both fields')
-        }
-       else if(oldPassfromstate===newPassfromstate){
-            alert('Password can not be same!!')
-    }
-    else{
         let allinfo=JSON.parse(localStorage.getItem('allinfo'))
-        for(let index in allinfo){
-            let i=allinfo[index];
-            let j=i['Info']
-            let oldpass=j['password']
-            if(oldPassfromstate===oldpass){
-                console.log(j)
-                j['password']=newPassfromstate;
-                console.log(j['password'])
-                alert('Password changed successfully!!')
-                localStorage.setItem('allinfo',JSON.stringify(allinfo)) 
+        if(allinfo){
+            let check=true
+            for(let index in allinfo){
+                let i=allinfo[index] 
+                let j=i['Info']         
+                if(j['email']===this.state.forms.email.value){
+                    check=true;
+                    let oldPassfromstate=this.state.forms.oldPassword.value;
+                    let newPassfromstate=this.state.forms.newPassword.value;
+                    if(oldPassfromstate.trim()===''||newPassfromstate.trim()==='')
+                    {
+                        alert('Enter some password in fields')
+                        
+                    }
+                   else if(oldPassfromstate===newPassfromstate)
+                   {
+                        alert('Password can not be same!!')
+                       
+                   }
+                else{
+                        let oldpass=j['password']
+                        if(oldPassfromstate===oldpass){
+                            j['password']=newPassfromstate;
+                            console.log(j['password'])
+                            alert('Password changed successfully!!')
+                            localStorage.setItem('allinfo',JSON.stringify(allinfo)) 
+                            this.props.history.push('/')
+                    }       
+                  }
+                }
+                else{ 
+                    this.setState({check:!check})
+                }
             }
-        this.props.history.push('/')
-      }
-    }
+         if(!this.state.check){
+            alert('No match between email & password!!')
+        }
+        }
+        else{
+            alert('No data has been submitted yet')
+        }     
     }
     render(){
     let formsKeys=[];
@@ -99,8 +136,8 @@ class ForgotPassword extends Component{
       )
     }
     return(
-        <div>
-            <h2>Change Your Password</h2>
+        <div className='main'>
+            <h2>Change My Password</h2>
             <form >
             { 
                 formsKeys.map(elem=>(

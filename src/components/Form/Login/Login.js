@@ -49,7 +49,7 @@ class Login extends Component{
         for(let index in allinfo ){
          let i=allinfo[index];
          let info=i['Info']
-         console.log(info)
+        //  console.log(info)
           let fname=info['firstname'];
           let lname=info['lastname'];
           let password=info['password'];
@@ -64,10 +64,8 @@ class Login extends Component{
           else{
             check=false
           }
-         }
-        
-        //  console.log(fname+' '+password)
-         
+         }    
+        //  console.log(fname+' '+password)   
           if(check){
             this.props.history.push('/loggedin') 
           }
@@ -108,8 +106,6 @@ class Login extends Component{
       </button> 
       <button onClick={this.register}>Register </button> 
       <NavLink to= '/forgotPassword'><h4>Forgot password?</h4></NavLink>
-      {/* <Route path='/loggedin'  component={LoggedIn}/> */}
-           {/* {this.state.proceed?<Route path='/loggedin' component={LoggedIn} firstname={this.state.fname} lastname={this.state.lname}/>:null} */}          
             </div>
         )
     }

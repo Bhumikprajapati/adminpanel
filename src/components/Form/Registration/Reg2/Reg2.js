@@ -55,8 +55,7 @@ class Reg2 extends Component{
                 valid:false,
                 touched:false,
                 validation:{
-                  required:true, 
-                                 
+                  required:true,                                 
                 }
               },
               edate:{
@@ -138,17 +137,24 @@ submitted=(e)=>{
   let pushData=[];
   if(allinfos){ 
     pushData=allinfos
-  }
-  pushData.push({Info:info,EduInfo:eduinfo})
+    pushData.push({Info:info,EduInfo:eduinfo})
     localStorage.setItem('allinfo',JSON.stringify(pushData))
+  }
+  else{
+    localStorage.setItem('allinfo', JSON.stringify([{ Info:info,EduInfo:eduinfo }]));
+  }
   localStorage.removeItem('info')
   localStorage.removeItem('eduinfo')
   this.props.history.push('/')
 }
 addmore=()=>{
+  let formData = {}
+  for (let formElement in this.state.form2) {
+      formData[formElement] = this.state.form2[formElement].value;
+  }
   const updatedform2 = {...this.state.form2}
    const addCopyData = [...this.state.addData]
-  addCopyData.push(updatedform2);
+  addCopyData.push(formData);
 localStorage.setItem('eduinfo',JSON.stringify(addCopyData))
 for(let id in updatedform2) {
   updatedform2[id].touched = false;

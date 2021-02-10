@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import './UserDetails.css';
-
 class UserDetails extends Component{
     
     render(){   
@@ -28,14 +27,6 @@ class UserDetails extends Component{
  </tr>
  </thead>
  <tbody>
-
- {/* <tr>  
-<td>{fname}</td>
-<td>{lname}</td>
-<td>{gender}</td>
-<td>{email}</td>
-<td>{phone }</td>  
-  </tr> */}
   {data}
   </tbody>
  </table>

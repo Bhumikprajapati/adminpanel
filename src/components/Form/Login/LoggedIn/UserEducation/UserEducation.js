@@ -38,16 +38,16 @@ class UserEducation extends Component{
         const allinfo=JSON.parse(localStorage.getItem('allinfo'));
         const activeindex=localStorage.getItem('activeindex');   
             let i=allinfo[activeindex];
-            let j=i['EduInfo']
-            console.log(j)
-           let showinfo=j.map((data,index)=>{
-               return(
+            let eduinfo=i['EduInfo']
+            console.log(eduinfo)
+           let showinfo=eduinfo.map((data,index)=>{
+               return(                     
                 <tr>
-                <td> {data['sclname'].value}</td>
-                <td>{data['course'].value}</td>
-                <td>{data['percent'].value}</td>
-                <td>{data['sdate'].value}</td>
-                <td>{data['edate'].value}</td>
+                <td> {data['sclname']}</td>
+                <td>{data['course']}</td>
+                <td>{data['percent']}</td>
+                <td>{data['sdate']}</td>
+                <td>{data['edate']}</td>
                 <td><button onClick={()=>{this.edit(data,index)}}>Edit</button></td>
                 <td><button className='danger' onClick={()=>{this.delete(index)}}>Delete</button></td>
             </tr>
