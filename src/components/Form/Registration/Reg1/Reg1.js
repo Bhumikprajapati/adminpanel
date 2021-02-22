@@ -85,7 +85,7 @@ class Reg1 extends Component{
         valid:false,       
         validation:{
           required:true,
-          isPass:true
+          // isPass:true
         }
       },
       confirmpassword:{
@@ -159,20 +159,17 @@ formisValid:formisValid
     event.preventDefault();
 let arr={}
 // eslint-disable-next-line
-let pattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/;
-if(!pattern.test(this.state.forms.password.value)){
-  alert('Password must satisfy following criteria:\n 1)Atleat 1 lowercase character\n 2)Atleat 1 Uppercase character\n 3)Atleat 1 Special character \n4)Atleat 1 numeric character')
-}
-else{
+// let pattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/;
+// if(!pattern.test(this.state.forms.password.value)){
+//   alert('Password must satisfy following criteria:\n 1)Atleat 1 lowercase character\n 2)Atleat 1 Uppercase character\n 3)Atleat 1 Special character \n4)Atleat 1 numeric character')
+// }
+// else{}
   for(let id in this.state.forms)
 {
     arr[id]=this.state.forms[id].value
 }
   localStorage.setItem('info',JSON.stringify(arr))
   this.props.history.push('/reg2') 
-}
-
-
    }
 componentDidMount(){
     let info=JSON.parse(localStorage.getItem('info'))

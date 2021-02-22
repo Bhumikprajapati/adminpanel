@@ -46,35 +46,34 @@ class Reg2 extends Component{
                   required:true
                 }
               },
-              sdate:{
-                type:'date',
-                config:{   
-                  name:'start date',
-                },
-                value:'',
-                valid:false,
-                touched:false,
-                validation:{
-                  required:true,                                 
-                }
-              },
-              edate:{
-                type:'date',
-                config:{  
-                  name:'end date'
-                },
-                value:'',
-                valid:false,
-                touched:false,
-                validation:{
-                  required:true,
-                    echeck:true        
-                }
-              },             
+              // sdate:{
+              //   type:'date',
+              //   config:{   
+              //     name:'start date',
+              //   },
+              //   value:'',
+              //   valid:false,
+              //   touched:false,
+              //   validation:{
+              //     required:true,                                 
+              //   }
+              // },
+              // edate:{
+              //   type:'date',
+              //   config:{  
+              //     name:'end date'
+              //   },
+              //   value:'',
+              //   valid:false,
+              //   touched:false,
+              //   validation:{
+              //     required:true,
+              //       echeck:true        
+              //   }
+              // },             
         },
         formisValid:false,
         addData:[],
-        pushData:[]
     }
     checkValidity=(value,rules)=>{
         let isValid=true;
@@ -132,16 +131,16 @@ submitted=(e)=>{
   e.preventDefault();
   this.addmore()
   let info=JSON.parse(localStorage.getItem('info'))
-  let eduinfo=JSON.parse(localStorage.getItem('eduinfo'))
+  // let eduinfo=JSON.parse(sessionStorage.getItem('eduinfo'))
   let allinfos=JSON.parse(localStorage.getItem('allinfo'))
   let pushData=[];
   if(allinfos){ 
     pushData=allinfos
-    pushData.push({Info:info,EduInfo:eduinfo})
+    pushData.push({Info:info,EduInfo:this.state.addData})
     localStorage.setItem('allinfo',JSON.stringify(pushData))
   }
   else{
-    localStorage.setItem('allinfo', JSON.stringify([{ Info:info,EduInfo:eduinfo }]));
+    localStorage.setItem('allinfo', JSON.stringify([{ Info:info,EduInfo:this.state.addData }]));
   }
   localStorage.removeItem('info')
   localStorage.removeItem('eduinfo')
@@ -155,7 +154,7 @@ addmore=()=>{
   const updatedform2 = {...this.state.form2}
    const addCopyData = [...this.state.addData]
   addCopyData.push(formData);
-localStorage.setItem('eduinfo',JSON.stringify(addCopyData))
+// localStorage.setItem('eduinfo',JSON.stringify(addCopyData))
 for(let id in updatedform2) {
   updatedform2[id].touched = false;
   updatedform2[id].value = '';
@@ -167,6 +166,38 @@ this.setState({
   formisValid:false
 })
 }
+editEdu=(index)=>{
+  let updatedform2={...this.state.form2}
+  let loaddata=this.state.addData[index];
+  for(let id in updatedform2) {
+    updatedform2[id].touched = false;
+    updatedform2[id].value = loaddata[id];
+    updatedform2[id].valid = false;  
+  }
+  this.setState({
+    form2:updatedform2,
+    formisValid:false
+  })
+  let t=this.state.addData
+  t.splice(index,1)
+  this.setState({
+    addData:t
+  })
+
+}
+deleteEdu=(index)=>{
+
+  console.log(index)
+let del=window.confirm('Sure to delete?')
+if(del){
+  let updatedData=[...this.state.addData]
+  updatedData.splice(index,1)
+  this.setState({
+    addData:updatedData
+  })
+  console.log(this.state.addData)
+}
+}
     render(){
         let loadform=[];
         for(let key in  this.state.form2){
@@ -174,6 +205,27 @@ this.setState({
                 id:key,
                 info:this.state.form2[key]
             })       
+        }
+        let showEducations;
+        if(this.state.addData.length>0){
+          showEducations = (
+            this.state.addData.map((d, index) => {
+              return(
+                <table>
+                  <tr>
+                   <td>{d.sclname}</td>
+                   <td>{d.course}</td>
+                   <td>{d.percent}</td>
+                   <td>{d.sdate}</td>
+                   <td>{d.edate}</td>
+                   <td><button onClick={()=>this.editEdu( index)}  >Edit</button></td>
+                   <td><button onClick={()=>this.deleteEdu( index)}  >Delete</button></td>
+                   </tr>
+                </table>
+               
+              )
+            })
+          )
         }
         return(
             <div className='Reg2'>
@@ -192,6 +244,7 @@ this.setState({
                />
             ))}
                 </form>
+                {showEducations}
               <button onClick={this.addmore} disabled={!this.state.formisValid} >Add more education</button>
                 <button onClick={ this.back}>Previous</button> 
                 <button disabled={!this.state.formisValid} onClick={this.submitted}>Register Me</button> 

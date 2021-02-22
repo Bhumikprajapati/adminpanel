@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
-import Input from '../../../../Input/Input'
-import './ForgotPassword.css';
-class ForgotPassword extends Component{
+import Input from '../../../../../Input/Input'
+
+class ChangePass extends Component{
     state={
         forms:{
             email:{
@@ -18,6 +18,22 @@ class ForgotPassword extends Component{
                   isEmail:true
                 }
               },
+            oldPassword:{
+                type:'input',
+                config:{
+                    placeholder:"Old Password",
+                    type:'password',
+                    name:"oldPassword"
+                },
+                value:'',
+                data:true,
+                valid:false,
+                touched:false,
+                
+                validation:{
+                    required:true
+                }
+            },
             newPassword:{
                 type:'input',
                 config:{
@@ -34,7 +50,6 @@ class ForgotPassword extends Component{
                 }
             },
         },
-        check:true,
         formisValid:false
     }
     checkValidity=(value,rules)=>{  
@@ -66,34 +81,40 @@ class ForgotPassword extends Component{
       }
       check=(e)=>{
         e.preventDefault();
-        let allinfo = JSON.parse(localStorage.getItem("allinfo"));
-        let emailfromstate = this.state.forms.email.value;
-        let newPassfromstate = this.state.forms.newPassword.value;
-        if (newPassfromstate.trim() === "" || emailfromstate.trim() === "") {
-          alert("Enter some data in both fields");
-        } else {
-          for (let index in allinfo) {
-            let i = allinfo[index];
-            let j = i["Info"];
-            let email = j["email"];
-            let oldpass = j["password"];
-            if (emailfromstate === email) {
-                if(newPassfromstate===oldpass)
-                {
-                   alert('cant choose password same as old')
-                }
+        let allinfo=JSON.parse(localStorage.getItem('allinfo'))
+        if(allinfo){
+        
+            for(let index in allinfo){
+                let i=allinfo[index] 
+                let j=i['Info']         
+                if(j['email']===this.state.forms.email.value){
+                 
+                    let oldPassfromstate=this.state.forms.oldPassword.value;
+                    let newPassfromstate=this.state.forms.newPassword.value;
+                    if(oldPassfromstate.trim()===''||newPassfromstate.trim()==='')
+                    {
+                        alert('Enter some password in fields')
+                        
+                    }
+                   else if(oldPassfromstate===newPassfromstate)
+                   {
+                        alert('Password can not be same!!')
+                       
+                   }
                 else{
-                    j["password"] = newPassfromstate;
-                    console.log(j["password"]);
-                    alert("Password changed successfully!!");
-                    localStorage.setItem("allinfo", JSON.stringify(allinfo));
-                    this.props.history.push("/");
+                        let oldpass=j['password']
+                        if(oldPassfromstate===oldpass){
+                            j['password']=newPassfromstate;
+                            console.log(j['password'])
+                            alert('Password changed successfully!!')
+                            localStorage.setItem('allinfo',JSON.stringify(allinfo)) 
+                            this.props.history.push('/')
+                    }       
+                  }
                 }
-             
             }
-          
-          }
-        }    
+        }
+     
     }
     render(){
     let formsKeys=[];
@@ -106,7 +127,7 @@ class ForgotPassword extends Component{
       )
     }
     return(
-        <div className='main'>
+        <div className>
             <h2>Change My Password</h2>
             <form >
             { 
@@ -129,4 +150,4 @@ class ForgotPassword extends Component{
     );
     }
 }
-export default ForgotPassword;
+export default ChangePass;
